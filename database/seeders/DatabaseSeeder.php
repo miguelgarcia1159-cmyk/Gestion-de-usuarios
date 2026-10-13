@@ -2,29 +2,28 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\User;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // 1. Ejecutar el seeder de Roles primero
-        $this->call([
-            RoleSeeder::class,
-        ]);
+        // Crear los roles
+        $this->call(RoleSeeder::class);
 
-        // 2. Crear tu usuario Administrador para pruebas
-        User::factory()->create([
-            'name' => 'Miguel Administrador',
+        // Administrador principal
+        User::create([
+            'name' => 'Miguel Ángel García Mondragón',
             'email' => 'admin@cucea.edu.mx',
-            'password' => bcrypt('password123'), // Tu contraseña de acceso
-            'role_id' => 1, // El ID 1 corresponde a 'Admin' creado arriba
+            'password' => Hash::make('password'),
+            'role_id' => 1,
         ]);
 
-        // 3. (Opcional) Crear 10 usuarios falsos para que tu tabla no esté vacía al diseñar las vistas
+        // 10 usuarios de prueba
         User::factory(10)->create([
-            'role_id' => 2, // Les asignamos rol de 'Usuario Adm' por defecto
+            'role_id' => 2,
         ]);
     }
 }
