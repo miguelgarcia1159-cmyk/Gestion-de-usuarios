@@ -11,11 +11,8 @@ class Role extends Model
         'nombre',
     ];
 
-    /**
-     * Un rol puede tener muchos usuarios.
-     */
     public function users(): HasMany
     {
-        return $this->hasMany(User::class);
+        return $this->hasMany(User::class, 'role_id');
     }
 }

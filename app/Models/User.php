@@ -2,32 +2,30 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Attributes\Fillable;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
+use App\Models\Role;
 
-#[Fillable(['name', 'email', 'password', 'role_id'])]
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
-    protected $hidden = [
+    #[Fillable(['name', 'email', 'password', 'role_id'])]
+    protected $fillable = [
+        'name',
+        'email',
         'password',
-        'remember_token',
+        'role_id',
     ];
 
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
-    }
-
+    /**
+     * Relación con el rol del usuario
+     */
     public function role(): BelongsTo
     {
-        return $this->belongsTo(Role::class);
+        return $this->belongsTo(Role::class, 'role_id');
     }
 }
